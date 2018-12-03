@@ -39,10 +39,15 @@
         var url_data = $element.data( 'url');
         var ikona = $element.data( 'icon');
         var zoom = $element.data( 'zoom');
+        var style = $element.data( 'style');
+        var style_l = $element.data( 'style_l');
         // wlasciwa mapa
         var map = L.map(mapWrapper).setView([lat, lng], zoom);
-        L.esri.basemapLayer("Topographic").addTo(map);
 
+        L.esri.basemapLayer(style).addTo(map);
+        if(style_l != ''){
+            L.esri.basemapLayer(style_l).addTo(map);
+        }
 
         // przełaczanie
         //map.dragging.disable();
@@ -55,11 +60,17 @@
                 map.scrollWheelZoom.enable();
             }
         });
-        
+        // var greenIcon = L.icon({
+        //     iconUrl: ikona,
+        //     iconSize:     [38, 95], // size of the icon
+        // });
+
         //console.log(popup);
         if(content != '' && popup == 1){
+            //L.marker([lat, lng], {icon: greenIcon}).bindPopup(content).addTo(map);
             L.marker([lat, lng]).bindPopup(content).addTo(map);
         }else{
+            //L.marker([lat, lng], {icon: greenIcon}).addTo(map);
             L.marker([lat, lng]).addTo(map);
         }
         
@@ -78,10 +89,13 @@
         var zoom = $element.data( 'zoom');
         var markers = [];
         var marker;
+        var mcluster = $element.data( 'mcluster');
         var url_data = $element.data( 'url');
         var $latFld_set = $element.data( 'latfld');
         var $lngFld_set = $element.data( 'lngfld');
         var popup = $element.data( 'popup');
+        var style = $element.data( 'style');
+        var style_l = $element.data( 'style_l');
         var thisPopup;
         // tu mod
         var szer_cat = 0;
@@ -102,7 +116,10 @@
         // wlasciwa mapa
         
         var map = L.map(mapWrapper).setView([$latFld_set, $lngFld_set], zoom);
-        L.esri.basemapLayer("Topographic").addTo(map);
+        L.esri.basemapLayer(style).addTo(map);
+        if(style_l != ''){
+            L.esri.basemapLayer(style_l).addTo(map);
+        }
         
         map.scrollWheelZoom.disable();
         map.on('click', function() {
@@ -112,7 +129,9 @@
                 map.scrollWheelZoom.enable();
             }
         });
-        
+
+
+        var markerCluster = L.markerClusterGroup();
         //generowanie markerow
         
         list_wrapper.each(function(index){
@@ -130,15 +149,18 @@
                     marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
                 }
                 markers.push(marker);
+                markerCluster.addLayer(marker);
             }else{
                 //cos poszlo nie tak
                 console.log('error point');
             }
-            //dodanie markerów do mapy
-            L.featureGroup(markers).addTo(map);  
-            //cos z marker cluster trzeba wymyslic
-            
         });
+        //dodanie markerów do mapy
+        if(mcluster == 1){
+            map.addLayer(markerCluster);
+        }else{
+            L.featureGroup(markers).addTo(map);
+        }
 
     }
     /*
@@ -156,6 +178,8 @@
         var $latFld_set = $element.data( 'latfld');
         var $lngFld_set = $element.data( 'lngfld');
         var popup = $element.data( 'popup');
+        var style = $element.data( 'style');
+        var style_l = $element.data( 'style_l');
         var list_wrapper = $element.find('.ac_poimaps_full_list_post > li');
 
         var markers = [];
@@ -164,7 +188,10 @@
         
         // wlasciwa mapa
         var map = L.map(mapWrapper).setView([$latFld_set, $lngFld_set], zoom);
-        L.esri.basemapLayer("Topographic").addTo(map);
+        L.esri.basemapLayer(style).addTo(map);
+        if(style_l != ''){
+            L.esri.basemapLayer(style_l).addTo(map);
+        }
         
         map.scrollWheelZoom.disable();
         map.on('click', function() {
@@ -204,8 +231,8 @@
                 console.log('error point');
             }
             //dodanie markerów do mapy
-            L.featureGroup(markers).addTo(map);  
-            //cos z marker cluster trzeba wymyslic      
+            L.featureGroup(markers).addTo(map);
+            //cos z marker cluster trzeba wymyslic
         });
         //
         //filtr
@@ -280,7 +307,7 @@
                 }
             });   
             //dodanie markerów do mapy
-            L.featureGroup(markers).addTo(map); 
+            L.featureGroup(markers).addTo(map);
         }  
     }
     

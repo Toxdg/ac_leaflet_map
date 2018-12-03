@@ -30,6 +30,8 @@ function ac_leaflet_settings() {
     register_setting( 'poimaps-settings-group', 'ac_leaflet_lngFld' );	
     register_setting( 'poimaps-settings-group', 'ac_leaflet_ico' );
     register_setting( 'poimaps-settings-group', 'ac_leaflet_ico_id' );
+    register_setting( 'poimaps-settings-group', 'ac_leaflet_style' );
+    register_setting( 'poimaps-settings-group', 'ac_leaflet_mcluster' );
 }
 
 function ac_leaflet_settings_page() {
@@ -53,7 +55,11 @@ function ac_leaflet_settings_page() {
        <tr valign="top">
             <th scope="row"><?php echo __('Province', poimaps_leaflet_cfg()->textdomain);?></th>
             <td><input type="checkbox" name="ac_leaflet_wojewodztwa" value="1"<?php if(get_option('ac_leaflet_wojewodztwa') == 1){ echo 'checked'; } ?>><?php if(get_option('ac_leaflet_wojewodztwa') == 1){ echo 'on'; }else{ echo 'off';} ?></td>
-        </tr> 
+        </tr>
+        <tr valign="top">
+            <th scope="row"><?php echo __('MarkerCluster', poimaps_leaflet_cfg()->textdomain);?></th>
+            <td><input type="checkbox" name="ac_leaflet_mcluster" value="1"<?php if(get_option('ac_leaflet_mcluster') == 1){ echo 'checked'; } ?>><?php if(get_option('ac_leaflet_mcluster') == 1){ echo 'on'; }else{ echo 'off';} ?></td>
+        </tr>
         <tr valign="top">
             <th scope="row"><?php echo __('List POI', poimaps_leaflet_cfg()->textdomain);?></th>
             <td><input type="checkbox" name="ac_leaflet_poi_list" value="1"<?php if(get_option('ac_leaflet_poi_list') == 1){ echo 'checked'; } ?>><?php if(get_option('ac_leaflet_poi_list') == 1){ echo 'on'; }else{ echo 'off';} ?></td>
@@ -61,14 +67,45 @@ function ac_leaflet_settings_page() {
         <tr valign="top">
             <th scope="row"><?php echo __('Filter', poimaps_leaflet_cfg()->textdomain);?></th>
             <td><input type="checkbox" name="ac_leaflet_filtr" value="1"<?php if(get_option('ac_leaflet_filtr') == 1){ echo 'checked'; } ?>><?php if(get_option('ac_leaflet_filtr') == 1){ echo 'on'; }else{ echo 'off';} ?></td>
-        </tr> 
-<!--        <tr valign="top">
-            <th scope="row"><?php echo __('Map Icon', poimaps_leaflet_cfg()->textdomain);?></th>
-            <td><a href="#" id="set-ico-button" class="button upload_image_button"><?php echo __('Set icon', poimaps_leaflet_cfg()->textdomain);?></a><a href="#" id="reset_ico" class="button"><?php echo __('Remove icon', poimaps_leaflet_cfg()->textdomain);?></a><br>
-                <input type="text" name="ac_leaflet_ico" id="icon_input" value="<?php echo get_option('ac_leaflet_ico');?>">
-                <input type="text" name="ac_leaflet_ico_id" id="ico_id" value="<?php echo get_option('ac_leaflet_ico_id');?>" style="opacity:0; display: none;">
+        </tr>
+        <tr valign="top">
+            <th scope="row"><?php echo __('Style', poimaps_leaflet_cfg()->textdomain);?></th>
+            <td>
+                <?php
+                $def_styles = array(
+                    'Topographic',
+                    'Streets',
+                    'NationalGeographic',
+                    'Oceans',
+                    'Gray',
+                    'DarkGray',
+                    'Imagery',
+                    'ImageryClarity',
+                    'ImageryFirefly',
+                    'ShadedRelief',
+                    'Terrain',
+                    'USATopo',
+                    'Physical'
+                );
+                $output = '<select name="ac_leaflet_style">';
+                for( $i=0; $i<count($def_styles); $i++ ) {
+                    $output .= '<option '
+                        . ( get_option('ac_leaflet_style') == $def_styles[$i] ? 'selected="selected"' : '' ) . '>'
+                        . $def_styles[$i]
+                        . '</option>';
+                }
+                $output .= '</select>';
+                echo $output;
+                ?>
             </td>
-        </tr> -->
+        </tr>
+        <!--        <tr valign="top">
+                    <th scope="row"><?php echo __('Map Icon', poimaps_leaflet_cfg()->textdomain);?></th>
+                    <td><a href="#" id="set-ico-button" class="button upload_image_button"><?php echo __('Set icon', poimaps_leaflet_cfg()->textdomain);?></a><a href="#" id="reset_ico" class="button"><?php echo __('Remove icon', poimaps_leaflet_cfg()->textdomain);?></a><br>
+                        <input type="text" name="ac_leaflet_ico" id="icon_input" value="<?php echo get_option('ac_leaflet_ico');?>">
+                        <input type="text" name="ac_leaflet_ico_id" id="ico_id" value="<?php echo get_option('ac_leaflet_ico_id');?>" style="opacity:0; display: none;">
+                    </td>
+                </tr> -->
         <tr valign="top">
             <th scope="row"></th>
             <td><h2><?php echo __('Map Center', 'ac_poi_maps'); ?></h2> <a href="http://web4you.com.pl/11.html" target="_blank"><?php echo __('check', poimaps_leaflet_cfg()->textdomain); ?></a></td>
@@ -89,10 +126,29 @@ function ac_leaflet_settings_page() {
             <th scope="row">Shortcode</th>
             <td>
                 <table>
-                    <tr><td><b><?php echo __('Full view', poimaps_leaflet_cfg()->textdomain);?>:</b> </td><td>[map_full title="off" zoom="5" popup="off" poi="off"]</td></tr>
-                    <tr><td><b><?php echo __('Single Point', poimaps_leaflet_cfg()->textdomain);?>:</b> </td><td>[ac_map_single id="post_id" title="off" zoom="5"]</td></tr>
-                    <tr><td><b><?php echo __('Single category POI', poimaps_leaflet_cfg()->textdomain);?>:</b> </td><td>[ac_map_category id='ID' title='off' zoom='5' popup="off" poi="off"]</td></tr>      			
+                    <tr><td><b><?php echo __('Full view', poimaps_leaflet_cfg()->textdomain);?>:</b> </td><td>[map_full title="off" zoom="5" popup="off" poi="off" style="Topographic"]</td></tr>
+                    <tr><td><b><?php echo __('Single Point', poimaps_leaflet_cfg()->textdomain);?>:</b> </td><td>[ac_map_single id="post_id" title="off" zoom="5" style="Topographic" mcluster="0"]</td></tr>
+                    <tr><td><b><?php echo __('Single category POI', poimaps_leaflet_cfg()->textdomain);?>:</b> </td><td>[ac_map_category id='ID' title='off' zoom='5' popup="off" poi="off" style="Topographic" mcluster="0"]</td></tr>
                     <tr><td>*title</td><td>on / off</td></tr>
+                    <tr><td>*Marker Cluster(mcluster)</td><td>0 = off / 1 = on</td></tr>
+                    <tr><td>*Style</td><td>
+                            Streets<br>
+                            Topographic<br>
+                            NationalGeographic<br>
+                            Oceans<br>
+                            Gray<br>
+                            DarkGray<br>
+                            Imagery<br>
+                            ImageryClarity<br>
+                            ImageryFirefly<br>
+                            ShadedRelief<br>
+                            Terrain<br>
+                            USATopo<br>
+                            Physical<br>
+                        </td></tr>
+
+
+
                 </table>
             </td>
         </tr>  
@@ -103,4 +159,32 @@ function ac_leaflet_settings_page() {
 
 </form>
 </div>
-<?php } ?>
+<?php }
+
+function ac_leaflet_get_style(){
+    return get_option('ac_leaflet_style');
+}
+
+function ac_leaflet_get_style_label(){
+    $def_styles = array(
+        'Topographic' => '',
+        'Streets' => '',
+        'NationalGeographic' => '',
+        'Oceans' => 'OceansLabels',
+        'Gray' => 'GrayLabels',
+        'DarkGray' => 'DarkGrayLabels',
+        'Imagery' => 'ImageryLabels',
+        'ImageryClarity' => 'ImageryTransportation',
+        'ImageryFirefly' => 'ImageryTransportation',
+        'ShadedRelief' => 'ShadedReliefLabels',
+        'Terrain' => 'TerrainLabels',
+        'USATopo' => 'TerrainLabels',
+        'Physical' => 'TerrainLabels'
+    );
+    return $def_styles[get_option('ac_leaflet_style')];
+}
+
+function ac_leaflet_get_mcluster(){
+    return get_option('ac_leaflet_mcluster');
+}
+?>

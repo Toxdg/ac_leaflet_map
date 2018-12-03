@@ -9,12 +9,24 @@
 //category map
 function ac_leaflet_category_function($atts){
     $popup = $atts['popup'];
+    ac_leaflet_style_map();
     if($popup == 'on'){$popup = 1;}else{$popup = 0;}
     $plugins_url = plugins_url();
     $id = $atts['id'];
     $rand = rand(10, 99);
     $zoom = $atts['zoom'];
     if($zoom == ''){$zoom = 13;}
+    if($atts['style'] !== NULL) {
+        $style = $atts['style'];
+    }else{
+        $style = ac_leaflet_get_style();
+    }
+    if($atts['mcluster'] !== NULL) {
+        $mcluster = $atts['mcluster'];
+    }else{
+        $mcluster = ac_leaflet_get_mcluster();
+    }
+    $style_label = ac_leaflet_get_style_label();
     $cat_latFld = get_option('latFld');
     $cat_lngFld = get_option('lngFld');
     $term = get_term($id);
@@ -29,6 +41,9 @@ function ac_leaflet_category_function($atts){
     $map = "<div id='map-category_".$id."' class='ac_leaflet_map_category ac_leaflet_map'
     data-zoom='".$zoom."'
     data-map='category'
+    data-style_l='".$style_label."'
+    data-mcluster='".$mcluster."'
+    data-style='".$style."'
     data-id='category_".$id.$rand."'
     data-popup='".$popup."'
     data-url='".ac_leaflet_ikona()."'

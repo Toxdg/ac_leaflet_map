@@ -78,8 +78,15 @@ function ac_poimaps_leaflet_maps() {
         wp_register_script('Leaflet_lib', plugin_dir_url( __FILE__ ).'js/leaflet'.$ext);
         wp_register_script('Leaflet_lib_esri', plugin_dir_url( __FILE__ ).'js/esri-leaflet'.$ext);
         wp_register_script('Leaflet_lib_geocoder', plugin_dir_url( __FILE__ ).'js/esri-leaflet-geocoder'.$ext);
+        wp_register_script('Leaflet_lib_markerCluster', plugin_dir_url( __FILE__ ).'js/leaflet.markercluster-src'.$ext);
         
-        wp_register_script('ac_poimaps_leaflet_maps_admin', plugin_dir_url( __FILE__ ).'js/admin'.$ext, array('jquery','Leaflet_lib','Leaflet_lib_esri','Leaflet_lib_geocoder'));
+        wp_register_script('ac_poimaps_leaflet_maps_admin', plugin_dir_url( __FILE__ ).'js/admin'.$ext, array(
+            'jquery',
+            'Leaflet_lib',
+            'Leaflet_lib_esri',
+            'Leaflet_lib_geocoder',
+            'Leaflet_lib_markerCluster'
+        ));
         wp_enqueue_script('ac_poimaps_leaflet_maps_admin');	
         
         wp_enqueue_style('ac_poimaps_leaflet_core');

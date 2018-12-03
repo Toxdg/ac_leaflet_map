@@ -15,8 +15,18 @@ function map_full( $atts ){
     $label_woj = __('Province', poimaps_leaflet_cfg()->textdomain);
     $zoom = $atts['zoom'];
     $id_full = "full_".$id.rand(1000,9999);
+    if($atts['mcluster'] !== NULL) {
+        $mcluster = $atts['mcluster'];
+    }else{
+        $mcluster = ac_leaflet_get_mcluster();
+    }
     if($zoom == ''){$zoom = 6;}
-
+    if($atts['style'] !== NULL) {
+        $style = $atts['style'];
+    }else{
+        $style = ac_leaflet_get_style();
+    }
+    $style_label = ac_leaflet_get_style_label();
     ac_leaflet_style_map();
     if(get_option('ac_leaflet_filtr') == 1){
         $hide_select = 'ac_show';
@@ -28,6 +38,9 @@ function map_full( $atts ){
     data-id='".$id_full."'
     data-url='".ac_leaflet_ikona()."'
     data-popup='".$popup."'
+    data-mcluster='".$mcluster."'
+    data-style_l='".$style_label."'
+    data-style='".$style."'
     data-zoom='".$zoom."'
     data-latFld='".get_option('ac_leaflet_latFld')."'
     data-lngFld='".get_option('ac_leaflet_lngFld')."'>";

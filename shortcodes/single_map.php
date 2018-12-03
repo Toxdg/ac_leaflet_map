@@ -19,12 +19,23 @@ function ac_leaflet_single_map_function($atts){
     if($zoom == ''){$zoom = 13;}
 	$popup = $atts['popup'];
     if($popup == 'on'){$popup = 1;}else{$popup = 0;}
+    if($atts['style'] !== NULL) {
+        $style = $atts['style'];
+    }else{
+        $style = ac_leaflet_get_style();
+    }
+    $style_label = ac_leaflet_get_style_label();
+
     $map = "<div id='".$id."' "
             . "data-id='single_".$id."'"
             . "data-popup='".$popup."'"
+            . "data-style='".$style."'"
+            . "data-style_l='".$style_label."'"
             . "data-content='".$desc."' "
             . "data-title='".$title."' "
+            //. "data-icon='".$custom['marker'][0]."' "
             . "data-icon='".$custom['marker'][0]."' "
+
             . "data-zoom='".$zoom."' "
             . "data-map='single'"
             . "data-url='".ac_leaflet_ikona()."' "
