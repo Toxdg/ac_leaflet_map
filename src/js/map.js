@@ -181,7 +181,8 @@
         var style = $element.data( 'style');
         var style_l = $element.data( 'style_l');
         var list_wrapper = $element.find('.ac_poimaps_full_list_post > li');
-
+        
+        var mcluster = $element.data( 'mcluster');
         var markers = [];
         var markers_all = [];
         var marker;
@@ -201,7 +202,9 @@
                 map.scrollWheelZoom.enable();
             }
         });
-        
+
+        var markerCluster = L.markerClusterGroup();
+
         // czyszczenie mapy
         function remove_markers(){
             $.each( markers, function( key, value ) {
@@ -209,6 +212,7 @@
             });
             markers = [];
             //map.removeLayer(marker2);
+            markerCluster.clearLayers();
           }
         // generowanie listy markerow
         list_wrapper.each(function(index){
@@ -226,14 +230,21 @@
                     marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
                 }
                 markers.push(marker);
+                markerCluster.addLayer(marker);
             }else{
                 //cos poszlo nie tak
                 console.log('error point');
             }
-            //dodanie markerów do mapy
-            L.featureGroup(markers).addTo(map);
-            //cos z marker cluster trzeba wymyslic
+
         });
+        //dodanie markerów do mapy
+        //L.featureGroup(markers).addTo(map);
+        if(mcluster == 1){
+            map.addLayer(markerCluster);
+        }else{
+            L.featureGroup(markers).addTo(map);
+        }
+
         //
         //filtr
         //
@@ -300,6 +311,7 @@
                         }
                         // dodaje marker do tablicy markerow
                         markers.push(marker);
+                        markerCluster.addLayer(marker);
                     }
                 }else{
                     //cos poszlo nie tak
@@ -307,7 +319,12 @@
                 }
             });   
             //dodanie markerów do mapy
-            L.featureGroup(markers).addTo(map);
+            //L.featureGroup(markers).addTo(map);
+            if(mcluster == 1){
+                map.addLayer(markerCluster);
+            }else{
+                L.featureGroup(markers).addTo(map);
+            }
         }  
     }
     
