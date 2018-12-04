@@ -6,7 +6,15 @@ function ac_leaflet_ikona(){
     }else{
         $ikona = get_option('ac_leaflet_ico');
     }
-    return $ikona;
+    return ac_ac_leaflet_ikona_size($ikona);
+    
+}
+function ac_ac_leaflet_ikona_size($ikona){
+    if(is_null($ikona) || $ikona == ''){
+        return;
+    }
+    list($width, $height, $type, $attr) = getimagesize($ikona);
+    return $ikona.','.$width.','.$height;
 }
 //odpalenie styli i skryptów
 function ac_leaflet_style_map(){

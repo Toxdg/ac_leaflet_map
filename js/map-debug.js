@@ -19,7 +19,20 @@
         });
         
     });
-
+    function make_icon(ikona, url_data){
+        if(ikona == ''){
+            ikona = url_data;
+        }
+        var ikonaArray = ikona.split(',');
+        console.log(ikonaArray);
+        var mapIcon = L.icon({
+            iconUrl: ikonaArray[0],
+            iconSize:     [ikonaArray[1], ikonaArray[2]], // size of the icon
+            iconAnchor: [ikonaArray[1]/2, ikonaArray[2]],
+            popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+        });
+        return mapIcon;
+    }
     /*
      *
      *
@@ -60,18 +73,17 @@
                 map.scrollWheelZoom.enable();
             }
         });
-        // var greenIcon = L.icon({
-        //     iconUrl: ikona,
-        //     iconSize:     [38, 95], // size of the icon
-        // });
 
-        //console.log(popup);
+        //jesli ikona jest ustawiona
+        var mapIcon = make_icon(ikona, url_data);
+
+
         if(content != '' && popup == 1){
-            //L.marker([lat, lng], {icon: greenIcon}).bindPopup(content).addTo(map);
-            L.marker([lat, lng]).bindPopup(content).addTo(map);
+            L.marker([lat, lng], {icon: mapIcon}).bindPopup(content).addTo(map);
+            //L.marker([lat, lng]).bindPopup(content).addTo(map);
         }else{
-            //L.marker([lat, lng], {icon: greenIcon}).addTo(map);
-            L.marker([lat, lng]).addTo(map);
+            L.marker([lat, lng], {icon: mapIcon}).addTo(map);
+            //L.marker([lat, lng]).addTo(map);
         }
         
     }
@@ -140,13 +152,18 @@
             var dlug = $(this).data( 'lng');
             var content = $(this).data('content');
             var ico_data = $(this).data( 'icon');
-            if(ico_data != 'null'){url_data = ico_data;}
+            
+            //jesli ikona jest ustawiona
+            var mapIcon = make_icon(ico_data, url_data);
+
             // jesli sa wspolrzedne geograficzne
             if (szer != '' && dlug !=''){
                 if(content != '' && popup == 1){
-                    marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}}).bindPopup(content);
+                    marker = L.marker([szer, dlug], {wi_index: index, icon: mapIcon, alt: {index: index, opis: content}}).bindPopup(content);
+                    //marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}}).bindPopup(content);
                 }else{
-                    marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
+                    marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}, icon: mapIcon});
+                    //marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
                 }
                 markers.push(marker);
                 markerCluster.addLayer(marker);
@@ -181,7 +198,7 @@
         var style = $element.data( 'style');
         var style_l = $element.data( 'style_l');
         var list_wrapper = $element.find('.ac_poimaps_full_list_post > li');
-        
+
         var mcluster = $element.data( 'mcluster');
         var markers = [];
         var markers_all = [];
@@ -221,13 +238,16 @@
             var dlug = $(this).data( 'lng');
             var content = $(this).data('content');
             var ico_data = $(this).data( 'icon');
-            if(ico_data != 'null'){url_data = ico_data;}
+            //jesli ikona jest ustawiona
+            var mapIcon = make_icon(ico_data, url_data);
             // jesli sa wspolrzedne geograficzne
             if (szer != '' && dlug !=''){
                 if(content != '' && popup == 1){
-                    marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}}).bindPopup(content);
+                    marker = L.marker([szer, dlug], {wi_index: index, icon: mapIcon, alt: {index: index, opis: content}}).bindPopup(content);
+                    //marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}}).bindPopup(content);
                 }else{
-                    marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
+                    marker = L.marker([szer, dlug], {wi_index: index, icon: mapIcon, alt: {index: index, opis: content}});
+                    //marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
                 }
                 markers.push(marker);
                 markerCluster.addLayer(marker);
@@ -291,7 +311,8 @@
                 var dlug = $(this).data( 'lng');
                 var ico_data = $(this).data( 'icon');
                 var content = $(this).data('content');
-                if(ico_data != 'null'){url_data = ico_data;}
+                //jesli ikona jest ustawiona
+                var mapIcon = make_icon(ico_data, url_data);
                 // jesli sa wspolrzedne geograficzne
                 var cat_id = $( this ).data( 'catid');
                 var region_name = $( this ).data( 'country');
@@ -303,11 +324,15 @@
                     $sum_szer = $sum_szer + szer;
                     $sum_dl = $sum_dl + dlug;
                     $ile_pkt++;
+                    
                     if (szer != '' && dlug !=''){
                         if(content != '' && popup == 1){
-                            marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}}).bindPopup(content);
+                            
+                            marker = L.marker([szer, dlug], {wi_index: index, icon: mapIcon, alt: {index: index, opis: content}}).bindPopup(content);
+                            //marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}}).bindPopup(content);
                         }else{
-                            marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
+                            marker = L.marker([szer, dlug], {wi_index: index, icon: mapIcon, alt: {index: index, opis: content}});
+                            //marker = L.marker([szer, dlug], {wi_index: index, alt: {index: index, opis: content}});
                         }
                         // dodaje marker do tablicy markerow
                         markers.push(marker);

@@ -26,7 +26,7 @@ function ac_leaflet_category_function($atts){
     }else{
         $mcluster = ac_leaflet_get_mcluster();
     }
-    $style_label = ac_leaflet_get_style_label();
+    $style_label = ac_leaflet_get_style_label($style);
     $cat_latFld = get_option('latFld');
     $cat_lngFld = get_option('lngFld');
     $term = get_term($id);
@@ -87,10 +87,10 @@ function ac_leaflet_category_function($atts){
 
         $lacation_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category_region');
         $lacation_list = ac_location_list($lacation_list);
-        if($custom['marker'][0] == ''){ $marker_ico = 'null'; }else{ $marker_ico = $custom['marker'][0]; }
+        if($custom['marker'][0] == ''){ $marker_ico = ''; }else{ $marker_ico = $custom['marker'][0]; }
         $map .="<li
         data-title='".$content_post->post_name."'
-        data-icon='".$marker_ico."'
+        data-icon='".ac_ac_leaflet_ikona_size($marker_ico)."'
         data-url='".ac_leaflet_ikona()."'
         data-lat='".$custom['latFld'][0]."'
         data-content='".$decription_marker."'

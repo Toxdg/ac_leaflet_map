@@ -11,7 +11,7 @@ function ac_leaflet_single_map_function($atts){
     $plugins_url = plugins_url();    
     ac_leaflet_style_map();
     $id = $atts['id'].rand(10, 99);
-    $post = get_post($id);
+    $post = get_post($atts['id']);
     $custom = get_post_custom($atts['id']);	
     $zoom = $atts['zoom'];
     $title = $post->post_title;
@@ -24,8 +24,8 @@ function ac_leaflet_single_map_function($atts){
     }else{
         $style = ac_leaflet_get_style();
     }
-    $style_label = ac_leaflet_get_style_label();
-
+    $style_label = ac_leaflet_get_style_label($style);
+    
     $map = "<div id='".$id."' "
             . "data-id='single_".$id."'"
             . "data-popup='".$popup."'"
@@ -34,7 +34,7 @@ function ac_leaflet_single_map_function($atts){
             . "data-content='".$desc."' "
             . "data-title='".$title."' "
             //. "data-icon='".$custom['marker'][0]."' "
-            . "data-icon='".$custom['marker'][0]."' "
+            . "data-icon='".ac_ac_leaflet_ikona_size($custom['marker'][0])."' "
 
             . "data-zoom='".$zoom."' "
             . "data-map='single'"
