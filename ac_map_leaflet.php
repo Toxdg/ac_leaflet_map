@@ -94,10 +94,13 @@ function ac_poimaps_leaflet_maps()
             'Leaflet_lib_geocoder',
             'Leaflet_lib_markerCluster'
         ));
-        wp_enqueue_script('ac_poimaps_leaflet_maps_admin');
+        //fix category view
+        if($_GET["taxonomy"] != "ac_leaflet_category"){
+            wp_enqueue_script('ac_poimaps_leaflet_maps_admin');
 
-        wp_enqueue_style('ac_poimaps_leaflet_core');
-        wp_enqueue_style('ac_poimaps_leaflet_main');
+            wp_enqueue_style('ac_poimaps_leaflet_core');
+            wp_enqueue_style('ac_poimaps_leaflet_main');
+        }
     }
 }
 add_action('admin_enqueue_scripts', 'ac_poimaps_leaflet_maps');
