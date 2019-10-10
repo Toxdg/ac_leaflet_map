@@ -60,7 +60,7 @@ function map_full($atts)
         $map .= "<label>" . $label_cat . ":</label><br>";
     }
     $map .= "<select class='select_box cat_select' name='cat' id='cat'>";
-    $map .= "<option value='0' class=''>" . __('All', 'ac_poi_maps') . "</option>";
+    $map .= "<option value='0' class=''>" . __('All', poimaps_leaflet_cfg()->textdomain) . "</option>";
     $args = array(
         'orderby' => 'name',
         'parent' => 0,
@@ -93,7 +93,7 @@ function map_full($atts)
         $all_points_position = get_categories($args);
         $map .= "<label>" . $label_woj . ":</label><br>";
         $map .= "<select class='select_box woj_select'>";
-        $map .= "<option value='0' class='' data-lnt='" . get_option('latFld') . "' data-lng='" . get_option('lngFld') . "'>" . __('All', 'ac_poi_maps') . "</option>";
+        $map .= "<option value='0' class='' data-lnt='" . get_option('latFld') . "' data-lng='" . get_option('lngFld') . "'>" . __('All', poimaps_leaflet_cfg()->textdomain) . "</option>";
         foreach ($all_points_position as $post_poi) {
             $term_meta = get_term_meta($post_poi->term_id, 'term_location', true);
             $lat = $term_meta["latFld"];

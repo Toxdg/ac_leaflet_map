@@ -125,7 +125,7 @@ function ac_poimaps_leaflet_meta_options_2()
     global $post;
     $custom = get_post_custom($post->ID); ?>
 	<?php $marker = $custom["marker"][0]; ?>
-	<label><?php _e('Marcer icon(url):', poimaps_leaflet_cfg()->textdomain) ?></label><input type="text" name="marker"  id="marker" class="marker_input" value="<?php echo esc_attr($marker); ?>" size="80" style="width:99%" placeholder="<?php _e('marker url(.png)', poimaps_leaflet_cfg()->textdomain); ?>" />
+	<label><?php _e('Marker icon(url):', poimaps_leaflet_cfg()->textdomain) ?></label><input type="text" name="marker"  id="marker" class="marker_input" value="<?php echo esc_attr($marker); ?>" size="80" style="width:99%" placeholder="<?php _e('marker url(.png)', poimaps_leaflet_cfg()->textdomain); ?>" />
         <a href="#" id="set-ico-button" class="button upload_image_button"><?php echo __('Set icon', poimaps_leaflet_cfg()->textdomain); ?></a><a href="#" id="reset_ico" class="button"><?php echo __('Remove icon', poimaps_leaflet_cfg()->textdomain); ?></a>
 <?php 
 }
