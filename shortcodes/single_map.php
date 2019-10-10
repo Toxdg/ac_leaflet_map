@@ -16,6 +16,7 @@ function ac_leaflet_single_map_function($atts){
     $zoom = $atts['zoom'];
     $title = $post->post_title;
     $desc = $post->post_content;
+    $desc = apply_filters('the_content', $desc);
     if($zoom == ''){$zoom = 13;}
 	$popup = $atts['popup'];
     if($popup == 'on'){$popup = 1;}else{$popup = 0;}

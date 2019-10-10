@@ -126,6 +126,7 @@ function map_full($atts)
         $custom = get_post_custom($post_poi->ID);
         $content_post = get_post($post_poi->ID);
         $decription_marker = $content_post->post_content;
+        $decription_marker = apply_filters('the_content', $decription_marker);
         $term_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category', array("fields" => "ids"));
         $term_list = ac_category_list($term_list);
         $lacation_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category_region');
