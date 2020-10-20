@@ -6,6 +6,7 @@ function ac_leaflet_ikona(){
     }else{
         $ikona = get_option('ac_leaflet_ico');
     }
+
     return ac_ac_leaflet_ikona_size($ikona);
     
 }
@@ -13,6 +14,8 @@ function ac_ac_leaflet_ikona_size($ikona){
     if(is_null($ikona) || $ikona == ''){
         return;
     }
+    var_dump($ikona);
+    var_dump(getimagesize($ikona));
     list($width, $height, $type, $attr) = getimagesize($ikona);
     return $ikona.','.$width.','.$height;
 }
@@ -48,7 +51,7 @@ function ac_leaflet_style_map(){
     wp_enqueue_script('ac_poimaps_leaflet_maps_admin');	
 }
 
-function ac_category_list($list){
+function ac_category_list_term($list){
     $ile = count($list);
     $html = '';
     $i = 1;
@@ -62,7 +65,7 @@ function ac_category_list($list){
     return $html;
 }
 
-function ac_location_list($list){
+function ac_location__list($list){
     $ile = count($list);
     $html = '';
     $i = 1;

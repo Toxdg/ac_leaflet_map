@@ -7,7 +7,7 @@
  */
 
 //full map
-function map_full($atts)
+function ac_map_full($atts)
 {
     $popup = $atts['popup'];
     if ($popup == 'on') {
@@ -128,9 +128,9 @@ function map_full($atts)
         $decription_marker = $content_post->post_content;
         $decription_marker = apply_filters('the_content', $decription_marker);
         $term_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category', array("fields" => "ids"));
-        $term_list = ac_category_list($term_list);
+        $term_list = ac_category_list_term($term_list);
         $lacation_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category_region');
-        $lacation_list = ac_location_list($lacation_list);
+        $lacation_list = ac_location__list($lacation_list);
         if ($custom['marker'][0] == '') {
             $marker_ico = '';
         } else {
@@ -154,4 +154,4 @@ function map_full($atts)
     $map .= "</div>";
     return $map;
 }
-add_shortcode('map_full', 'map_full');
+add_shortcode('map_full', 'ac_map_full');

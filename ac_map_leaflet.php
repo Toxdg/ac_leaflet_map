@@ -155,8 +155,8 @@ function ac_poimaps_leaflet_meta_options()
 }
 
 //
-add_action('save_post', 'save_acpoimaps_data');
-function save_acpoimaps_data()
+add_action('save_post', 'save_ac_poimaps_data');
+function save_ac_poimaps_data()
 {
     global $post;
     update_post_meta($post->ID, "marker", $_POST["marker"]);
