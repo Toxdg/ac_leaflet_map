@@ -14,8 +14,6 @@ function ac_ac_leaflet_ikona_size($ikona){
     if(is_null($ikona) || $ikona == ''){
         return;
     }
-    var_dump($ikona);
-    var_dump(getimagesize($ikona));
     list($width, $height, $type, $attr) = getimagesize($ikona);
     return $ikona.','.$width.','.$height;
 }
