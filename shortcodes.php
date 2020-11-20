@@ -50,7 +50,7 @@ function ac_leaflet_style_map(){
 }
 
 function ac_category_list_term($list){
-    $ile = count($list);
+    $ile = @count($list);
     $html = '';
     $i = 1;
     foreach ($list as $value) {
@@ -64,7 +64,7 @@ function ac_category_list_term($list){
 }
 
 function ac_location__list($list){
-    $ile = count($list);
+    $ile = @count($list);
     $html = '';
     $i = 1;
     foreach ($list as $value) {
