@@ -130,6 +130,11 @@ function ac_map_full($atts)
         $term_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category', array("fields" => "ids"));
         $term_list = ac_category_list_term($term_list);
         $lacation_list = wp_get_post_terms($post_poi->ID, 'ac_leaflet_category_region');
+        if(!empty($lacation_list) && !is_wp_error( $lacation_list)) {
+            $lacation_list = ac_location__list($lacation_list);
+        } else {
+            $lacation_list = "";
+        }
         $lacation_list = ac_location__list($lacation_list);
         if ($custom['marker'][0] == '') {
             $marker_ico = '';
